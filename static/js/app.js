@@ -47,15 +47,30 @@ function init(data) {
   let sorted = formatData(data, "940");
 
   // Sets up the bar chart
-  let bar = [{
+  var bar = [{
     x: sorted.sorted_bar.map(dataPoint => dataPoint.sample_value),
     y: sorted.sorted_bar.map(dataPoint => dataPoint.otu_id), 
     text: sorted.sorted_bar.map(dataPoint => dataPoint.otu_label),
     type: 'bar',
-    orientation: "h" }];
+    orientation: "h",
+    name: "Top 10 OTUs" }];
+  
+  // Sets up title and axis labels for bar chart
+  var barLayout = {
+    title: { 
+      text: "Top 10 OTUs",
+      automargin: true
+    },
+    xaxis: {
+      title: { text: "Number Present in Sample" }
+    },
+    yaxis: {
+      title: { text: "OTU ID" }
+    }
+  }
 
   // Plots the bar chart in the 'bar' wrapper
-  Plotly.newPlot("bar", bar);
+  Plotly.newPlot("bar", bar, barLayout);
 
   // Sets up the bubble chart
   let bubble = [{
@@ -70,8 +85,22 @@ function init(data) {
     }
   }];
 
+  // Sets up title and axis labels for the bubble chart
+  var bubbleLayout = {
+    title: { 
+      text: "Number of each OTU in sample",
+      automargin: true
+    },
+    xaxis: {
+      title: { text: "OTU ID" }
+    },
+    yaxis: {
+      title: { text: "Number Found in Sample" }
+    }
+  }
+
   // Plots the bubble chart
-  Plotly.newPlot("bubble", bubble);
+  Plotly.newPlot("bubble", bubble, bubbleLayout);
 
   // Gathers initial metadata
   let selectedMetaData = data.metadata.filter(dataSet => dataSet.id == 940)
